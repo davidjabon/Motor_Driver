@@ -25,7 +25,7 @@ void Motor_Driver::begin(uint8_t prescale)
 
 void Motor_Driver::setPRESCALE(uint8_t prescale)
 {
-	// We set the pre_scale  by default to give the maximum frequency  which is PRE_SCALE=0x03.  
+	// We set the pre_scale by default to give the maximum frequency which is PRE_SCALE=0x03.  
 	//The lowest freqency is PRE_SCALE = 0xFF.  See page 25 of the PCA9685 datasheet.  
 	// The formula for the frequency is supposedly 25MHz/(4096*(PRE_SCALE+1)).
 	// However I have found that the measured max frequency is  1708 Hz.  The minimum is 27 Hz.
@@ -53,7 +53,8 @@ void Motor_Driver::setPRESCALE(uint8_t prescale)
 }
 
 
-void Motor_Driver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
+void Motor_Driver::setPWM(uint8_t num, uint16_t on, uint16_t off)
+{
   Wire.beginTransmission(i2c_address);
   Wire.write(LED0_ON_L+4*num);
   Wire.write(on);
@@ -63,49 +64,46 @@ void Motor_Driver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
   Wire.endTransmission();
 }
 
-void Motor_Driver::set_motor_speed(uint8_t motor_number, uint16_t speed){
-	//These pin numbers correspond to the PWM inputs of the TB6612 Drivers
+void Motor_Driver::set_motor_speed(uint8_t motor_number, uint16_t speed)
+{
+//These pin numbers correspond to the PWM inputs of the TB6612 Drivers
 	switch (motor_number) {
-    case 1:
+		case 1:
 			setPWM(8,0,speed);
-      break;
-    case 2:
-      setPWM(13,0,speed);
-      break;
-	case 3:
+			break;
+		case 2:
+			setPWM(13,0,speed);
+			break;
+		case 3:
 			setPWM(2,0,speed);
 			break;
-	case 4:
+		case 4:
 			setPWM(7,0,speed);
 			break;
-	default: 
+		default: 
       // if nothing matches, do nothing
 			break;
   }
-
- }
+}
  
 
 
-void Motor_Driver::setPin(uint8_t pin, boolean value) {
+void Motor_Driver::setPin(uint8_t pin, boolean value) 
+{
 	if (value == LOW)
 		setPWM(pin, 0, 0);
 	else
 		setPWM(pin, 0, 4095);
 }
 
-
-
 uint8_t Motor_Driver::read_reg(uint8_t reg)
 {
 	Wire.beginTransmission(i2c_address);
 	Wire.write(reg);
-	Wire.endTransmission();
+	Wire.endTransmission()
 	Wire.requestFrom(i2c_address, 1);
 	return Wire.read();
-
 }
-
 
 void Motor_Driver::write_reg(uint8_t reg, uint8_t value)
 {
