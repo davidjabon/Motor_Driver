@@ -22,7 +22,7 @@ Motor_Driver::Motor_Driver(uint8_t address)
 void Motor_Driver::begin(uint8_t prescale)
 {
 	Wire.begin();
-    setPRESCALE(prescale);
+	setPRESCALE(prescale);
 }
 
 void Motor_Driver::setPRESCALE(uint8_t prescale)
@@ -38,24 +38,20 @@ void Motor_Driver::setPRESCALE(uint8_t prescale)
 	//Read the current MODE1 register.
 	uint8_t current_MODE1 = read_reg(PCA9685_MODE1); //Note: the default  power up MODE1 register value is 0x11.
 	//Set up the commands we will be needing 
-    current_MODE1 = current_MODE1 & 0x7F; //Set restart bit to 0
+	current_MODE1 = current_MODE1 & 0x7F; //Set restart bit to 0
 	uint8_t sleep = current_MODE1 | 0x10;  // Set sleep bit to 1
 	uint8_t wake = current_MODE1 & 0xEF;  // Set sleep bit to 0
 	uint8_t restart = wake | 0xA0;  // set Auto-increment bit 5 = 1 and restart bit 7 = 1
 	// Go to sleep
 	write_reg(PCA9685_MODE1, sleep); 
 	// Set the PRE_SCALE
-    write_reg(PCA9685_PRESCALE, prescale); 
+	write_reg(PCA9685_PRESCALE, prescale); 
 	// Wake
 	write_reg(PCA9685_MODE1, wake);
 	// Need to wait at least 500 microseconds before logic 1 is written to the RESTART bit.
-    delay(1);
+	delay(1);
 	// Restart
-   write_reg(PCA9685_MODE1, restart);  
-
-	
-	
-	
+	write_reg(PCA9685_MODE1, restart);  		
 }
 
 
@@ -69,24 +65,24 @@ void Motor_Driver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
   Wire.endTransmission();
 }
 
- void Motor_Driver::set_motor_speed(uint8_t motor_number, uint16_t speed){
+void Motor_Driver::set_motor_speed(uint8_t motor_number, uint16_t speed){
 	//These pin numbers correspond to the PWM inputs of the TB6612 Drivers
 	switch (motor_number) {
     case 1:
-      setPWM(8,0,speed);
+			setPWM(8,0,speed);
       break;
     case 2:
       setPWM(13,0,speed);
       break;
 	case 3:
-      setPWM(2,0,speed);
-      break;
+			setPWM(2,0,speed);
+			break;
 	case 4:
-      setPWM(7,0,speed);
-      break;
-    default: 
+			setPWM(7,0,speed);
+			break;
+	default: 
       // if nothing matches, do nothing
-    break;
+			break;
   }
 
  }
@@ -94,10 +90,10 @@ void Motor_Driver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
 
 
 void Motor_Driver::setPin(uint8_t pin, boolean value) {
-    if (value == LOW)
-    setPWM(pin, 0, 0);
-  else
-    setPWM(pin, 0, 4095);
+	if (value == LOW)
+    	setPWM(pin, 0, 0);
+	else
+    	setPWM(pin, 0, 4095);
 }
 
 
@@ -105,10 +101,10 @@ void Motor_Driver::setPin(uint8_t pin, boolean value) {
 uint8_t Motor_Driver::read_reg(uint8_t reg)
 {
 	Wire.beginTransmission(i2c_address);
-    Wire.write(reg);
-    Wire.endTransmission();
-    Wire.requestFrom(i2c_address, 1);
-    return Wire.read();
+	Wire.write(reg);
+	Wire.endTransmission();
+	Wire.requestFrom(i2c_address, 1);
+	return Wire.read();
 
 }
 
@@ -116,25 +112,7 @@ uint8_t Motor_Driver::read_reg(uint8_t reg)
 void Motor_Driver::write_reg(uint8_t reg, uint8_t value)
 {
 	Wire.beginTransmission(i2c_address);
-    Wire.write(reg);
-    Wire.write(value);
-    Wire.endTransmission();
+	Wire.write(reg);
+	Wire.write(value);
+	Wire.endTransmission();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
