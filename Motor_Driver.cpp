@@ -12,8 +12,6 @@
    Released into the public domain.
 */
 
-
-
 Motor_Driver::Motor_Driver(uint8_t address)
 {
 	i2c_address = address;
@@ -91,9 +89,9 @@ void Motor_Driver::set_motor_speed(uint8_t motor_number, uint16_t speed){
 
 void Motor_Driver::setPin(uint8_t pin, boolean value) {
 	if (value == LOW)
-    	setPWM(pin, 0, 0);
+		setPWM(pin, 0, 0);
 	else
-    	setPWM(pin, 0, 4095);
+		setPWM(pin, 0, 4095);
 }
 
 
