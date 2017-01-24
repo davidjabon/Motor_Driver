@@ -100,7 +100,7 @@ uint8_t Motor_Driver::read_reg(uint8_t reg)
 {
 	Wire.beginTransmission(i2c_address);
 	Wire.write(reg);
-	Wire.endTransmission()
+	Wire.endTransmission();
 	Wire.requestFrom(i2c_address, 1);
 	return Wire.read();
 }
